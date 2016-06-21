@@ -154,23 +154,15 @@ $(document).ready(function() {
   // setInterval(function() { app.fetch(); }, 1000);
 });
 
-// $(document).ready(function() {
-//   var messages = document.getElementsByClassName('chat');
-//   $('#roomSelect').change(function() {
-//     $.ajax({
-//       url: 'https://api.parse.com/1/classes/messages',
-//       success: function(data) {
-//         $.each(messages, function(index, chatNode) {
-//           if (chatNode.attributes[1].value === $(this.val)) {
-//             console.log(chatNode.attributes[1].value);
-//           }
-//         });
-//       }
-//     });
-//   });
-// });
-
 $('.select').change(function() {
+  var roomOptions = [];
+  //find a way to push the room names into roomoption then use the below code to 
+  //apend to select dropdown
+  //http://stackoverflow.com/questions/317095/how-do-i-add-options-to-a-dropdownlist-using-jquery
+  // var mySelect = $('#roomSelect');
+  // $.each(roomOptions, function(val, text) {
+  //   mySelect.append($('<option></option>').val(val).html(text));
+  // });
 
   var chatroomSelected = $(this).val;
   var messages = document.getElementsByClassName('chat');
@@ -179,6 +171,20 @@ $('.select').change(function() {
   $.each(messages, function(index, chatNode) {
     if (chatNode.attributes[1].value === $(this).val) {
       console.log(chatNode.attributes[1].value);
+      //This line of code goes with the above commented out
+      // roomOptions.push(chatNode.attributes[1].value);
     }
   });
 });
+
+// var myOptions = {
+//   val1: 'text1',
+//   val2: 'text2'
+// };
+// var mySelect = $('#roomSelect');
+// $.each(myOptions, function(val, text) {
+//   mySelect.append($('<option></option>').val(val).html(text));
+// });
+
+//https://css-tricks.com/dynamic-dropdowns/
+//http://stackoverflow.com/questions/20868180/how-to-populate-dropdown-dynamically
