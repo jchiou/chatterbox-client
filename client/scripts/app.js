@@ -9,6 +9,8 @@ var message = {
   roomname: '4chan'
 };
 
+var chatRoomList = [];
+
 $(document).ready(function() {
 
   app.init = function() {
@@ -43,7 +45,7 @@ $(document).ready(function() {
     return;
   };
 
-  $('.submit').click(function() {
+  $('#send').click(function() {
     // console.log('pressed submit');
     message.username = $('.userInput').val() || 'anonymous';
     message.text = $('.input').val();
@@ -92,6 +94,15 @@ $(document).ready(function() {
             $message.append(': ' + val.text);
             $message.attr('data-room', val.roomname);
 
+            // update dropdown menu with chatrooms
+            if (chatRoomList.indexOf(val.roomname) === -1) {
+              chatRoomList.push(val.roomname);
+              $('#roomSelect').append('<option value=' + val.roomname + '>' + val.roomname + '</option>');
+            }
+            
+            
+
+
             $('#chats').append($message);
           });
         },
@@ -108,7 +119,21 @@ $(document).ready(function() {
 
 
   app.addMessage = function(message) {
-    $('#chats').append('<div class="chat">' + '<a href="#" class="username">' + message.username + '</a>' + ':\n' + message.text + '</div>' );
+
+
+    var $user = $('<a href="#" class="username"></a>');
+    var $message = $('<div class="chat"></div>');
+
+    $user.text('@' + val.username);
+    $user.attr('data-user', val.username);
+    $user.prependTo($message);
+
+    $message.append(': ' + val.text);
+    $message.attr('data-room', val.roomname);
+ 
+    $('#chats').append($message);
+
+    // $('#chats').append('<div class="chat">' + '<a href="#" class="username">' + message.username + '</a>' + ':\n' + message.text + '</div>' );
   };
 
   app.server = 'https://api.parse.com/1/classes/messages';
@@ -128,7 +153,9 @@ $(document).ready(function() {
   $('#chats').on('click', 'a', function() {
     // $('.friendsList').append($(this).attr('data-user'));
     var clickedFriend = $(this).attr('data-user');
+    console.log(clickedFriend);
     if (friendlist.indexOf(clickedFriend) === -1) {
+      $('[data-user="' + clickedFriend + '"]').addClass('friend');
       friendlist.push(clickedFriend);
       $('.friendsList').append('<p class="friend">' + clickedFriend + '</p>');
     }
@@ -154,29 +181,46 @@ $(document).ready(function() {
   // setInterval(function() { app.fetch(); }, 1000);
 });
 
-$('.select').change(function() {
-  var roomOptions = [];
-  //find a way to push the room names into roomoption then use the below code to 
-  //apend to select dropdown
-  //http://stackoverflow.com/questions/317095/how-do-i-add-options-to-a-dropdownlist-using-jquery
-  // var mySelect = $('#roomSelect');
-  // $.each(roomOptions, function(val, text) {
-  //   mySelect.append($('<option></option>').val(val).html(text));
-  // });
+$(document).ready(function() {
 
-  var chatroomSelected = $(this).val;
-  var messages = document.getElementsByClassName('chat');
+  $('.dropdown').change(function() {
+    var roomOptions = [];
+    alert($(this).val());
+    app.fetch();
+    //find a way to push the room names into roomoption then use the below code to 
+    //apend to select dropdown
+    //http://stackoverflow.com/questions/317095/how-do-i-add-options-to-a-dropdownlist-using-jquery
+    // var mySelect = $('#roomSelect');
+    // $.each(roomOptions, function(val, text) {
+    //   mySelect.append($('<option></option>').val(val).html(text));
+    // });
+    // app.clearMessages();
+    //when a room is selected, it will be :selected
+    //use that attr to get the message
+    //
 
-// for each chatNode this function searches the data attribute "data-room"
-  $.each(messages, function(index, chatNode) {
-    if (chatNode.attributes[1].value === $(this).val) {
-      console.log(chatNode.attributes[1].value);
-      //This line of code goes with the above commented out
-      // roomOptions.push(chatNode.attributes[1].value);
-    }
+    var chatroomSelected = $(this).val();
+    var msg = document.querySelectorAll('[data-room="' + chatroomSelected + '"]');
+    console.log(msg);
+    app.clearMessages();
+  // for each chatNode this function searches the data attribute "data-room"
+    $.each(msg, function(index, chatNode) {
+      var user = chatNode.children[0].innerText.slice(1);
+      var text = chatNode.innerText.slice(user.length + 3);
+      var obj = {username: user, text: text, roomname: chatroomSelected};
+      // console.log(obj);
+      app.addMessage(obj);
+      // console.log(chatroomSelected);
+      // if (chatNode.attributes[1].value === chatroomSelected) {
+      //   console.log(chatNode.attributes[1].value);
+        //This line of code goes with the above commented out
+        // roomOptions.push(chatNode.attributes[1].value);
+    });
   });
-});
 
+
+
+});
 // var myOptions = {
 //   val1: 'text1',
 //   val2: 'text2'
