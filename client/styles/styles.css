@@ -15,11 +15,20 @@ body {
     border-width: 0 1px 1px 1px;
 }
 
+.friendsList {
+   
+}
+
 #main h1 {
     margin-top: 0;
     font-size: 35px;
     margin-bottom: 5px;
     padding: 5px;
+    text-align: center;
+}
+
+#main {
+    text-align: center;
 }
 
 #main h1 span {
@@ -88,3 +97,22 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+.userNameInput {
+    text-align: center;
+}
+.userInput {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 10px;
+    transition: box-shadow 0.4s, border 0.3s;
+}
+.userInput:focus {
+    border: 1px solid black;
+    box-shadow: 0 0 5px 1px #969696;
+}
+
+#main .chatRooms{
+    position: absolute;
+    top: 10%;
+    left: 70%;
+}
