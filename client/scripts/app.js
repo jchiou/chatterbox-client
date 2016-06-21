@@ -78,12 +78,21 @@ $(document).ready(function() {
         // contentType: 'application/json',
         success: function(data) {
           $.each(data.results, function(index, val) {
+
+            console.log(val.text, val.username, val.roomname);
+
+
             var $user = $('<a href="#" class="username"></a>');
-            $user.text(val.username);
+            var $message = $('<div class="chat"></div>');
+
+            $user.text('@' + val.username);
             $user.attr('data-user', val.username);
-            // app.addMessage(val);
-            // console.log(val);
-            $('#chats').append('<div class="chat">').append($user).append(':\n' + val.text + '</div>');
+            $user.prependTo($message);
+
+            $message.append(': ' + val.text);
+            $message.attr('data-room', val.roomname);
+
+            $('#chats').append($message);
           });
         },
         error: function(data) {
@@ -143,4 +152,33 @@ $(document).ready(function() {
     }
   };
   // setInterval(function() { app.fetch(); }, 1000);
+});
+
+// $(document).ready(function() {
+//   var messages = document.getElementsByClassName('chat');
+//   $('#roomSelect').change(function() {
+//     $.ajax({
+//       url: 'https://api.parse.com/1/classes/messages',
+//       success: function(data) {
+//         $.each(messages, function(index, chatNode) {
+//           if (chatNode.attributes[1].value === $(this.val)) {
+//             console.log(chatNode.attributes[1].value);
+//           }
+//         });
+//       }
+//     });
+//   });
+// });
+
+$('.select').change(function() {
+
+  var chatroomSelected = $(this).val;
+  var messages = document.getElementsByClassName('chat');
+
+// for each chatNode this function searches the data attribute "data-room"
+  $.each(messages, function(index, chatNode) {
+    if (chatNode.attributes[1].value === $(this).val) {
+      console.log(chatNode.attributes[1].value);
+    }
+  });
 });
