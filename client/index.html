@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" http-equiv="content-type" content="text/html">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
 
@@ -16,11 +16,29 @@
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
       <select name="select" id="roomSelect">
-        <option value="value1" selected>Value 1</option>
+        <option value="darkroom" selected>Dark Room</option>
       </select>
+
+      <!-- enter username -->
+      <form class='userNameInput'>
+        Name: <input class="userInput" id="field" placeholder="Type name">
+      </form>
+
       <form class='chatInput'>
         <input class="input" id="field" placeholder="Type Something">
-        <input type="submit" value="Submit"> 
+        <input class ="submit" type="submit" value="Submit"> 
+      </form>
+
+      <!-- refresh button -->
+      <form>
+        <input class="refresh" type="submit" value="Refresh">
+      </form>
+
+      <div class='userPanel'>
+        <div class='friendsList'>
+          <h1>This is a friends list</h1>
+        </div>
+      </div>
     </div>
     <div id="chats"></div>
   </body>
