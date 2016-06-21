@@ -7,39 +7,49 @@
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="lib/underscore/underscore.js"></script>
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
+
     <div id="main">
       <h1>chatterbox</h1>
       <!-- Your HTML goes here! -->
-      <select name="select" id="roomSelect">
-        <option value="darkroom" selected>Dark Room</option>
-      </select>
 
       <!-- enter username -->
       <form class='userNameInput'>
-        Name: <input class="userInput" id="field" placeholder="Type name">
+        Welcome, <br><input class="userInput" id="field" placeholder="Type name">
       </form>
+      <!-- chatroom options -->
+      <div class="chatrooms">
+      <select name="select" id="roomSelect" class="dropdown">
+        <option value="defaultRoom" selected>View chat rooms</option>
+        <option value="supperLobby"><a href="#">Dark Room</a></option>
+      </select>
+      </div>
 
       <form class='chatInput'>
-        <input class="input" id="field" placeholder="Type Something">
-        <input class ="submit" type="submit" value="Submit"> 
+        <input class="input" id="message" placeholder="Type Something">
+        <input class ="submit" type="submit" value="Submit" id="send"> 
       </form>
 
+      <!-- friends list -->
+      <div class='userPanel'>
+        <div class='friendsList'>
+          <h3>This is a friends list</h3>
+        </div>
+      </div>
       <!-- refresh button -->
       <form>
         <input class="refresh" type="submit" value="Refresh">
       </form>
 
-      <div class='userPanel'>
-        <div class='friendsList'>
-          <h1>This is a friends list</h1>
-        </div>
-      </div>
+
     </div>
+
+
     <div id="chats"></div>
   </body>
 </html>
