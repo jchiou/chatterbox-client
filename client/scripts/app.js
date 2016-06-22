@@ -42,12 +42,19 @@ $(document).ready(function() {
 
         $user.text('@' + val.username);
         $user.attr('data-user', _.escape(val.username));
+
+        $message.text(': ' + _.escape(val.text));
+
         $user.prependTo($message);
 
-        $message.append(': ' + _.escape(val.text));
         $message.attr('data-room', _.escape(val.roomname));
 
+        //var $message = `<div class="chat" data-room="${_.escape(val.roomname)}"><a href="#" class="username" data-user="${_.escape(val.username)}">@${val.username}</a>: ${val.text} </div>`;
+
+
         $('#chats').append($message);
+
+
 
       },
       error: function (data) {
@@ -81,21 +88,23 @@ $(document).ready(function() {
           $.each(data.results, function(index, val) {
 
             // console.log(val.text, val.username, val.roomname);
-
+            console.log(_.escape(val.roomname));
 
             var $user = $('<a href="#" class="username"></a>');
             var $message = $('<div class="chat"></div>');
 
             $user.text('@' + val.username);
             $user.attr('data-user', _.escape(val.username));
-            $message.text(': ' + val.text);
+            $message.text(': ' + _.escape(val.text));
 
             $user.prependTo($message);
 
             $message.attr('data-room', _.escape(val.roomname));
 
-            // update dropdown menu with chatrooms
-            app.addRoom(val.roomname);
+            // // update dropdown menu with chatrooms
+            app.addRoom(_.escape(val.roomname));
+
+            //var $message = `<div class="chat" data-room="${_.escape(val.roomname)}"><a href="#" class="username" data-user="${_.escape(val.username)}">@${val.username}</a>: ${val.text} </div>`;
 
             $('#chats').append($message);
           });
@@ -115,15 +124,18 @@ $(document).ready(function() {
   app.addMessage = function(val) {
 
 
-    var $user = $('<a href="#" class="username"></a>');
-    var $message = $('<div class="chat"></div>');
+    // var $user = $('<a href="#" class="username"></a>');
+    // var $message = $('<div class="chat"></div>');
 
-    $user.text('@' + val.username);
-    $user.attr('data-user', val.username);
-    $user.prependTo($message);
+    // $user.text('@' + val.username);
+    // $user.attr('data-user', val.username);
+    // $user.prependTo($message);
 
-    $message.append(': ' + val.text);
-    $message.attr('data-room', val.roomname);
+    // $message.append(': ' + val.text);
+    // $message.attr('data-room', val.roomname);
+
+    var $message = `<div class="chat" data-room="${_.escape(val.roomname)}"><a href="#" class="username" data-user="${_.escape(val.username)}">@${val.username}</a>: ${_.escape(val.text)} </div>`;
+
  
     $('#chats').append($message);
 
@@ -170,25 +182,36 @@ $(document).ready(function() {
 
 
   //refresh to see new messages
-  $('.refresh').click( () => {
+  $('.refresh').click( function() {
     app.clearMessages();
     app.fetch();
     $('#currentroom').text('all chat rooms');
   });
 
 
-  $('.dropdown').click( () => {
+  $('.dropdown').click( function() {
     app.fetch();
   });
 
-  $('.dropdown').change( () => {
+  // $('#tabs').tabs();
+  // $("div#tabs ul").append("<li><a href='#' class='tab'>" + chatroomSelected + "</a></li>");
+
+
+  $('.dropdown').change( function() {
     // app.fetch();
 
     var chatroomSelected = $(this).val();
+
+   
+    $('#tabs').append('<a href="#" class="tab">' + chatroomSelected + '</a> ');
+    
+
     var msg = document.querySelectorAll('[data-room="' + chatroomSelected + '"]');
     $('#currentroom').text(_.unescape(chatroomSelected));
-    // console.log(chatroomSelected);
-    // console.log(app.clearMessages());
+
+    // var $link = $('<a href="#" class="tab"></a>');
+    // $link.text(chatroomSelected);
+    // $('#main').append($link);
     app.clearMessages();
   // for each chatNode this function searches the data attribute "data-room"
     $.each(msg, function(index, chatNode) {
@@ -201,6 +224,53 @@ $(document).ready(function() {
     });
   });
 
+
+  // app.filterRooms = function () {
+  //   var chatroomSelected = $(this).val();
+  //   var msg = document.querySelectorAll('[data-room="' + chatroomSelected + '"]');
+  //   $('#currentroom').text(_.unescape(chatroomSelected));
+  //   app.clearMessages();
+
+  //   $.each(msg, function(index, chatNode) {
+  //     var user = chatNode.children[0].innerText.slice(1);
+  //     var text = chatNode.innerText.slice(user.length + 3);
+  //     var obj = {username: user, text: text, roomname: chatroomSelected};
+  //     // console.log(obj);
+
+  //     app.addMessage(obj);
+  //   });
+
+  // };
+
+  $('#tabs').click(function() {
+
+  });
+
+  $('#tabs').on('click', 'a', function() {
+    // app.fetch();
+
+    var chatroomSelected = $(this).text();
+
+    var msg = document.querySelectorAll('[data-room="' + chatroomSelected + '"]');
+    $('#currentroom').text(_.unescape(chatroomSelected));
+
+    // var $link = $('<a href="#" class="tab"></a>');
+    // $link.text(chatroomSelected);
+    // $('#main').append($link);
+    app.clearMessages();
+  // for each chatNode this function searches the data attribute "data-room"
+    $.each(msg, function(index, chatNode) {
+      
+      var user = chatNode.children[0].innerText.slice(1);
+      var text = chatNode.innerText.slice(user.length + 3);
+      var obj = {username: user, text: text, roomname: chatroomSelected};
+      // console.log(obj);
+
+      app.addMessage(obj);
+
+    });
+  });
+
+
+
 });
-
-
