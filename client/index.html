@@ -4,58 +4,78 @@
     <meta charset="utf-8" http-equiv="content-type" content="text/html">
     <title>chatterbox</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/dashboard.css" >
 
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- <script src="lib/underscore/underscore.js"></script> -->
+    <script src="bower_components/underscore/underscore.js"></script>
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
 
-    <div id="main">
-      <h1>chatterbox</h1>
-      <!-- Your HTML goes here! -->
-
-      <!-- enter username -->
-      <form class='userNameInput'>
-        Welcome, <br><input class="userInput" id="field" placeholder="Type name">
-      </form>
-      <!-- chatroom options -->
-      <div class="chatrooms">
-      <select name="select" id="roomSelect" class="dropdown">
-        <option value="all" selected>All</option>
-        <option value="superLobby"><a href="#">superLobby</a></option>
-      </select>
-      </div>
-
-      <form class='chatInput'>
-        <input class="input" id="message" placeholder="Type Something">
-        <input class ="submit" type="submit" value="Submit" id="send"> 
-      </form>
-
-      <!-- friends list -->
-      <div class='userPanel'>
-        <div class='friendsList'>
-          <h3>This is a friends list</h3>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Chatterbox</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <div class="dropdown-wrapper">
+            <select name="select" id="roomSelect" class="dropdown">
+              <option value="all" selected>All</option>
+              <option value="superLobby"><a href="#">superLobby</a></option>
+            </select>
+          </div>
+          <form class="navbar-form navbar-right">
+            <input class="newroom" placeholder="Create a new room">
+            <input class="addRoom" type="submit" value="Add Room">
+          </form>
         </div>
       </div>
-      <!-- refresh button -->
-      <form>
-        <input class="refresh" type="submit" value="Refresh">
-      </form>
+    </nav>
 
-      <!-- add room button -->
-      <form>
-        <input class="newroom" placeholder="Type new room">
-        <input class="addRoom" type="submit" value="New Room">
-      </form>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar userPanel">
+          <ul class="nav nav-sidebar friendsList">
+          <!-- Friendslist goes -->
+           <form class='userNameInput'>
+              Welcome, <br><input class="userInput" id="field" placeholder="Kermit the frog"><p></p>
+
+            </form>
+            <h3>Your Friends!</h3>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Chatterbox</h1>
+
+          <div class="row placeholders" id="main">
+            
+          <h4>Now Viewing: </h4><span id="currentroom">all chat rooms</span> 
+
+            <form class='chatInput'>
+              <input class="input" id="message" placeholder="Type Something">
+              <input class ="submit" type="submit" value="Submit" id="send"> 
+            </form>
+
+            <img src="styles/glyphicons-82-refresh.png" class="refresh">
+          </div>
 
 
+          <div id="chats">
+
+          </div>
+        </div>
+      </div>
     </div>
 
-
-    <div id="chats"></div>
   </body>
 </html>
